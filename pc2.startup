@@ -1,0 +1,15 @@
+ip link set dev eth0
+ip link set dev eth1
+ip link set dev eth2
+
+ip addr add 192.168.200.1/24 dev eth0
+ip addr add 192.168.50.1/24 dev eth1
+ip addr add 192.168.100.1/24 dev eth2
+
+ip link set dev eth0 up
+ip link set dev eth1 up
+ip link set dev eth2 up
+
+route add default gw 192.168.50.2
+
+iptables -t nat -A POSTROUTING -o eth2 -s 192.168.0.0/16 -j SNAT --to-source 192.168.50.1
